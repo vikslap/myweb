@@ -1,26 +1,123 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Light Mode Token Values */
+  --color-brand-cream: #fdf8f5;
+  --color-brand-plum: #352235;
+  --color-brand-mustard: #e5a93c;
+  --color-brand-mustard-hover: #cd9224;
+  --color-card-bg: rgba(53, 34, 53, 0.04);
+  --color-border: rgba(0, 0, 0, 0.1);
+  --color-body-text: #4a374a;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+[data-theme="dark"] {
+  /* Dark Mode Inverted Token Values */
+  --color-brand-cream: #1c121c; /* Deep midnight velvet background */
+  --color-brand-plum: #f5ebe6; /* Soft warm paper white text */
+  --color-brand-mustard: #f0b853; /* Slightly brighter accent for dark contrast */
+  --color-brand-mustard-hover: #ffcc73;
+  --color-card-bg: rgba(255, 255, 255, 0.05);
+  --color-border: rgba(255, 255, 255, 0.15);
+  --color-body-text: #d6cbd6;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Infinite Horizontal Marquee Keyframes & Smooth Utilities */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
   }
 }
 
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-brand-cream);
+  color: var(--color-brand-plum);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease; /* Smooth fade when switching modes */
+}
+
+@layer base {
+  .prose-wp {
+    color: var(--color-body-text);
+    line-height: 1.625;
+    font-size: 16px;
+  }
+
+  @media (min-width: 640px) {
+    .prose-wp {
+      font-size: 17px;
+    }
+  }
+
+  .prose-wp p {
+    margin-bottom: 1.5rem;
+  }
+
+  .prose-wp h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-brand-plum);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    letter-spacing: -0.025em;
+  }
+
+  .prose-wp h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-brand-plum);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.025em;
+  }
+
+  .prose-wp a {
+    color: var(--color-brand-mustard);
+    text-decoration-line: underline;
+    font-weight: 500;
+    transition-property: color;
+    transition-duration: 150ms;
+  }
+
+  .prose-wp a:hover {
+    color: var(--color-brand-mustard-hover);
+  }
+  .prose-wp ul {
+    list-style-type: disc;
+    list-style-position: inside;
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+  }
+  .prose-wp ol {
+    list-style-type: decimal;
+    list-style-position: inside;
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+  }
+  .prose-wp blockquote {
+    border-left-width: 4px;
+    border-left-color: var(--color-brand-mustard);
+    padding-left: 1rem;
+    font-style: italic;
+    color: var(--color-body-text);
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
 }
