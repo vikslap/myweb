@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, FormEvent, useEffect } from "react";
+import { sendContactEmail } from "@/app/actions";
 
 interface ContactSectionProps {
   isOpen: boolean;
@@ -15,7 +16,6 @@ export default function ContactSection({
     "idle" | "submitting" | "success" | "error"
   >("idle");
 
-  // Lock body scroll layers when the modal container mounts actively
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -27,59 +27,51 @@ export default function ContactSection({
     };
   }, [isOpen]);
 
-  // Clean exit if state flag registers false
   if (!isOpen) return null;
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("submitting");
 
-    const formData = new FormData(e.currentTarget);
-
-    // CRITICAL WEB3FORMS KEY: Paste the access key you receive in email here
-    formData.append("access_key", "YOUR_ACCESS_KEY_HERE");
-
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: formData,
-      });
+      const targetForm = e.currentTarget;
+      const formData = new FormData(targetForm);
+      const result = await sendContactEmail(formData);
 
-      const data = await response.json();
-
-      if (data.success) {
+      if (result.success) {
         setStatus("success");
-        (e.target as HTMLFormElement).reset();
+        targetForm.reset();
 
         setTimeout(() => {
           setStatus("idle");
           onClose();
         }, 2000);
       } else {
+        console.error("Resend API error:", result.error);
         setStatus("error");
       }
     } catch (error) {
-      console.error(error);
+      console.error("Form transmission crash:", error);
       setStatus("error");
     }
   }
 
   return (
-    /* CRITICAL FIX: Explicitly setting fixed viewport layout + high layer stacking index */
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Visual Backdrop Dimmer Overlay Layer */}
+    /* CRITICAL VISUAL FIX: fixed overlay, huge z-index, explicit width/height placement */
+    <div className="fixed inset-0 w-screen h-screen z-9999 flex items-center justify-center p-4">
+      {/* Background dimmer backdrop overlay */}
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-xs cursor-pointer transition-opacity duration-300"
+        className="absolute inset-0 w-full h-full bg-black/60 backdrop-blur-xs cursor-pointer"
         onClick={onClose}
       />
 
-      {/* Main Form Center Content Container Box */}
-      <div className="relative w-full max-w-lg bg-(--color-brand-cream) border border-(--color-border) p-6 sm:p-8 rounded-2xl shadow-2xl z-10 max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-200">
+      {/* Main Form Box Content Panel */}
+      <div className="relative w-full max-w-lg bg-(--color-brand-cream) border border-slate-200 p-6 sm:p-8 rounded-2xl shadow-2xl z-50 max-h-[90vh] overflow-y-auto">
         {/* Close Button element option */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 text-(--color-brand-plum) opacity-60 hover:opacity-100 transition-opacity p-1 text-lg font-bold cursor-pointer"
+          className="absolute top-4 right-4 text-(--color-brand-plum) opacity-60 hover:opacity-100 p-1 text-lg font-bold cursor-pointer border-0 bg-transparent"
           aria-label="Close dialog"
         >
           ✕
@@ -89,8 +81,8 @@ export default function ContactSection({
           <h2 className="text-2xl font-bold text-(--color-brand-plum) tracking-tight mb-2">
             Let’s Build Something Premium
           </h2>
-          <p className="text-(--color-body-text) opacity-80 text-xs sm:text-sm max-w-xs mx-auto">
-            Drop your project brief or custom media requirements below.
+          <p className="text-slate-600 opacity-80 text-xs sm:text-sm max-w-xs mx-auto">
+            Drop your project brief or custom requirements below.
           </p>
         </div>
 
@@ -107,7 +99,7 @@ export default function ContactSection({
               id="modal-name"
               name="name"
               required
-              className="px-4 py-2.5 rounded-lg border border-(--color-border) bg-(--color-card-bg) text-sm focus:outline-hidden focus:ring-1 focus:ring-(--color-brand-mustard) transition-all"
+              className="px-4 py-2.5 rounded-lg border border-slate-200 bg-white text-sm focus:outline-hidden focus:ring-1 focus:ring-amber-500 transition-all text-slate-900"
               placeholder="Your name"
             />
           </div>
@@ -124,7 +116,7 @@ export default function ContactSection({
               id="modal-email"
               name="email"
               required
-              className="px-4 py-2.5 rounded-lg border border-(--color-border) bg-(--color-card-bg) text-sm focus:outline-hidden focus:ring-1 focus:ring-(--color-brand-mustard) transition-all"
+              className="px-4 py-2.5 rounded-lg border border-slate-200 bg-white text-sm focus:outline-hidden focus:ring-1 focus:ring-amber-500 transition-all text-slate-900"
               placeholder="you@example.com"
             />
           </div>
@@ -141,7 +133,7 @@ export default function ContactSection({
               name="message"
               rows={4}
               required
-              className="px-4 py-3 rounded-lg border border-(--color-border) bg-(--color-card-bg) text-sm focus:outline-hidden focus:ring-1 focus:ring-(--color-brand-mustard) transition-all resize-none"
+              className="px-4 py-3 rounded-lg border border-slate-200 bg-white text-sm focus:outline-hidden focus:ring-1 focus:ring-amber-500 transition-all resize-none text-slate-900"
               placeholder="Describe your design or animation objectives..."
             />
           </div>
@@ -149,7 +141,7 @@ export default function ContactSection({
           <button
             type="submit"
             disabled={status === "submitting"}
-            className="w-full py-3 rounded-lg font-semibold tracking-wide bg-(--color-brand-plum) text-(--color-brand-cream) hover:bg-opacity-95 transition-all disabled:opacity-50 text-sm shadow-xs cursor-pointer"
+            className="w-full py-3 rounded-lg font-semibold tracking-wide bg-(--color-brand-plum) text-(--color-brand-cream) hover:bg-opacity-95 transition-all disabled:opacity-50 text-sm shadow-xs cursor-pointer border-0"
           >
             {status === "submitting" ? "Sending..." : "Send Message →"}
           </button>
