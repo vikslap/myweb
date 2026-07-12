@@ -151,26 +151,34 @@ export default async function Home() {
           </h2>
         </div>
 
-        <div className="relative w-full overflow-hidden">
-          <div className="animate-marquee gap-6 px-4">
-            {carouselItems.map((service, index) => (
-              <div
-                key={index}
-                className="w-72.5 sm:w-85 shrink-0 p-6 rounded-xl bg-(--color-card-bg) border border-(--color-border) flex flex-col justify-between transition-colors duration-300"
-              >
-                <div>
-                  <div className="h-10 w-10 rounded-lg bg-(--color-brand-plum) flex items-center justify-center mb-4 shadow-sm transition-colors duration-300">
-                    {service.icon}
+        {/* Structural Layout Container for Global Grid Margin Alignment */}
+        <div className="relative max-w-7xl mx-auto px-6 md:px-12">
+          {/* Visual Masking Fade Elements */}
+          <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-16 bg-gradient-to-r from-(--color-brand-cream) to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-16 bg-gradient-to-l from-(--color-brand-cream) to-transparent z-10 pointer-events-none" />
+
+          {/* Independent Marquee Scrolling Sub-viewport */}
+          <div className="relative w-full overflow-hidden">
+            <div className="animate-marquee flex gap-6 m-0 p-0">
+              {carouselItems.map((service, index) => (
+                <div
+                  key={index}
+                  className="w-72.5 sm:w-85 shrink-0 p-6 rounded-xl bg-(--color-card-bg) border border-(--color-border) flex flex-col justify-between transition-colors duration-300"
+                >
+                  <div>
+                    <div className="h-10 w-10 rounded-lg bg-(--color-brand-plum) flex items-center justify-center mb-4 shadow-sm transition-colors duration-300">
+                      {service.icon}
+                    </div>
+                    <h3 className="text-lg font-bold mb-2 text-(--color-brand-plum) tracking-tight transition-colors duration-300">
+                      {service.title}
+                    </h3>
+                    <p className="text-(--color-body-text) text-sm leading-relaxed transition-colors duration-300">
+                      {service.description}
+                    </p>
                   </div>
-                  <h3 className="text-lg font-bold mb-2 text-(--color-brand-plum) tracking-tight transition-colors duration-300">
-                    {service.title}
-                  </h3>
-                  <p className="text-(--color-body-text) text-sm leading-relaxed transition-colors duration-300">
-                    {service.description}
-                  </p>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
