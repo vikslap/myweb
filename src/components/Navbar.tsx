@@ -1,107 +1,58 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 
-export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+interface NavbarProps {
+  onContactClick: () => void;
+}
 
+export default function Navbar({ onContactClick }: NavbarProps) {
   return (
-    <nav className="bg-(--color-brand-cream) border-b border-(--color-border) sticky top-0 z-50 transition-colors duration-300">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex items-center">
-            <Link
-              href="/"
-              className="text-xl font-bold text-(--color-brand-plum) tracking-tight"
-            >
-              Souveek Pal
-            </Link>
-          </div>
+    <header className="w-full border-b border-slate-200/60 bg-(--color-brand-cream) transition-colors duration-300 sticky top-0 z-30">
+      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        {/* Brand Logo */}
+        <Link
+          href="/"
+          className="text-lg font-bold tracking-tight text-(--color-brand-plum) hover:opacity-80 transition-opacity"
+        >
+          Souveek Pal
+        </Link>
 
-          {/* Desktop Right Navigation Panel */}
-          <div className="hidden md:flex items-center space-x-6">
-            <Link
-              href="/"
-              className="text-sm font-medium text-(--color-body-text) hover:text-(--color-brand-plum) transition-colors"
-            >
-              Home
-            </Link>
-            <Link
-              href="/blog"
-              className="text-sm font-medium text-(--color-body-text) hover:text-(--color-brand-plum) transition-colors"
-            >
-              Blog
-            </Link>
-            <Link
-              href="#contact"
-              className="text-sm font-semibold px-4 py-2 rounded-md bg-(--color-brand-plum) text-(--color-brand-cream) hover:bg-opacity-90 transition-all"
-            >
-              Contact
-            </Link>
-          </div>
-
-          {/* Mobile Actions Interface Trigger Panel */}
-          <div className="flex items-center md:hidden">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              type="button"
-              className="text-slate-500 focus:outline-none"
-              aria-label="Toggle navigation menu"
-            >
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                {isOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Responsive Sidebar Drawer Dropdown */}
-      {isOpen && (
-        <div className="md:hidden border-b border-(--color-border) bg-(--color-brand-cream) px-4 pt-2 pb-4 space-y-1">
+        {/* Navigation Elements */}
+        <div className="flex items-center gap-6">
           <Link
             href="/"
-            onClick={() => setIsOpen(false)}
-            className="block px-3 py-2 rounded-md text-base font-medium text-(--color-body-text) hover:bg-(--color-card-bg)"
+            className="text-sm font-semibold text-(--color-brand-plum) opacity-80 hover:opacity-100 transition-opacity"
           >
             Home
           </Link>
+
           <Link
             href="/blog"
-            onClick={() => setIsOpen(false)}
-            className="block px-3 py-2 rounded-md text-base font-medium text-(--color-body-text) hover:bg-(--color-card-bg)"
+            className="text-sm font-semibold text-(--color-brand-plum) opacity-80 hover:opacity-100 transition-opacity"
           >
             Blog
           </Link>
-          <Link
-            href="#contact"
-            onClick={() => setIsOpen(false)}
-            className="block text-center mt-4 px-3 py-2 rounded-md text-base font-medium bg-(--color-brand-plum) text-(--color-brand-cream)"
+
+          {/* Contact Interactive Text Trigger */}
+          <span
+            role="button"
+            tabIndex={0}
+            onClick={() => {
+              console.log("Global Nav Link Trigger Fired!");
+              onContactClick();
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                onContactClick();
+              }
+            }}
+            className="text-sm font-semibold text-(--color-brand-plum) opacity-80 hover:opacity-100 transition-opacity cursor-pointer select-none"
           >
             Contact
-          </Link>
+          </span>
         </div>
-      )}
-    </nav>
+      </div>
+    </header>
   );
 }

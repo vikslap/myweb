@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Navbar from "@/components/Navbar";
+// Fix the path to look inside src/components directly:
+import MainLayoutWrapper from "@/components/MainLayoutWrapper";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,6 +14,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Stays securely on the Server side for SEO crawlers out of the box
 export const metadata: Metadata = {
   title: "Souveek Pal | Learning Experience Designer",
   description:
@@ -29,20 +31,9 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      {/* Explicitly adding the background color class to the body element here */}
       <body className="min-h-full flex flex-col bg-(--color-brand-cream) text-(--color-brand-plum)">
-        {/* Global Navigation Bar */}
-        <Navbar />
-
-        {/* Main Content Area */}
-        <div className="flex-1 flex flex-col">{children}</div>
-
-        {/* Minimal Footer */}
-        <footer className="w-full bg-(--color-brand-cream) border-t border-slate-200/60 py-6 mt-auto">
-          <div className="max-w-6xl mx-auto px-6 text-center text-sm font-medium text-slate-500">
-            © {new Date().getFullYear()} Souveek Pal | All rights reserved.
-          </div>
-        </footer>
+        {/* Pass elements down into our client-side context bridge */}
+        <MainLayoutWrapper>{children}</MainLayoutWrapper>
       </body>
     </html>
   );

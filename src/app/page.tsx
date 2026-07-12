@@ -108,7 +108,7 @@ const SERVICES = [
 export default async function Home() {
   const allPosts = await getAllPosts();
 
-  // 1. Isolate entries specifically designated for the visual portfolio grid
+  // Isolate entries specifically designated for the visual portfolio grid
   const portfolioItems = allPosts.filter((post) =>
     post.categories.includes("portfolio"),
   );
@@ -116,7 +116,7 @@ export default async function Home() {
   const carouselItems = [...SERVICES, ...SERVICES];
 
   return (
-    <div className="flex flex-col min-h-screen overflow-x-hidden">
+    <div className="flex flex-col min-h-screen overflow-x-hidden bg-(--color-brand-cream)">
       {/* Hero Section */}
       <section className="relative px-6 py-20 md:py-32 max-w-5xl mx-auto text-center">
         <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-(--color-brand-plum) mb-6 leading-tight">
@@ -182,7 +182,7 @@ export default async function Home() {
       >
         <header className="mb-12 text-center max-w-2xl mx-auto">
           <h2 className="text-3xl font-bold tracking-tight text-(--color-brand-plum) mb-4 transition-colors">
-            Selected Case Studies
+            Portfolio
           </h2>
           <p className="text-(--color-body-text) text-base opacity-80 transition-colors">
             A visual overview of responsive modules, branching interactions, and
@@ -191,7 +191,6 @@ export default async function Home() {
         </header>
 
         {portfolioItems.length === 0 ? (
-          /* Wrapped raw text inside regular curly brackets expression to completely satisfy ESLint entity rules */
           <p className="text-center text-sm font-medium text-(--color-body-text) opacity-60 py-12">
             {
               'No portfolio pieces published yet. Assign the "portfolio" category to items in WordPress to populate this grid.'
@@ -210,7 +209,7 @@ export default async function Home() {
                   {project.featuredImage ? (
                     <Image
                       src={project.featuredImage}
-                      alt={project.title}
+                      alt={project.title || "Portfolio showcase thumbnail"}
                       fill
                       sizes="(max-w-768px) 100vw, (max-w-1200px) 50vw, 33vw"
                       className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
@@ -236,7 +235,6 @@ export default async function Home() {
                     </div>
                   )}
 
-                  {/* Dark mode overlay fade effect hinting at interaction */}
                   <div className="absolute inset-0 bg-(--color-brand-plum) opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
                 </div>
 
