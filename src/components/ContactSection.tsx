@@ -79,10 +79,10 @@ export default function ContactSection({
 
         <div className="text-center mb-6">
           <h2 className="text-2xl font-bold text-(--color-brand-plum) tracking-tight mb-2">
-            Let’s Build Something Premium
+            Say Hello
           </h2>
           <p className="text-slate-600 opacity-80 text-xs sm:text-sm max-w-xs mx-auto">
-            Drop your project brief or custom requirements below.
+            Have a question or want to chat? Leave your details below.
           </p>
         </div>
 
@@ -92,7 +92,7 @@ export default function ContactSection({
               htmlFor="modal-name"
               className="text-xs font-bold uppercase tracking-wider text-(--color-brand-plum)"
             >
-              Your Name
+              Full Name/Organization
             </label>
             <input
               type="text"
@@ -126,7 +126,7 @@ export default function ContactSection({
               htmlFor="modal-message"
               className="text-xs font-bold uppercase tracking-wider text-(--color-brand-plum)"
             >
-              Project Brief / Message
+              Message
             </label>
             <textarea
               id="modal-message"
@@ -134,7 +134,7 @@ export default function ContactSection({
               rows={4}
               required
               className="px-4 py-3 rounded-lg border border-slate-200 bg-white text-sm focus:outline-hidden focus:ring-1 focus:ring-amber-500 transition-all resize-none text-slate-900"
-              placeholder="Describe your design or animation objectives..."
+              placeholder="Share what's on your mind, how we can collaborate, or just say hello..."
             />
           </div>
 
