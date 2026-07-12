@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getAllPosts } from "@/lib/wordpress";
+import LottiePlayer from "../components/LottiePlayer";
 
 const SERVICES = [
   {
@@ -117,29 +118,37 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col min-h-screen overflow-x-hidden bg-(--color-brand-cream)">
-      {/* Hero Section */}
-      <section className="relative px-6 py-20 md:py-32 max-w-5xl mx-auto text-center">
-        <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-(--color-brand-plum) mb-6 leading-tight">
-          Crafting Tailored Digital <br className="hidden sm:inline" />
-          Learning Experiences
-        </h1>
-        <p className="text-lg sm:text-xl text-(--color-body-text) max-w-2xl mx-auto mb-10">
-          Transforming standard complex workflows into clean, interactive
-          solutions built for scale and premium engagement.
-        </p>
-        <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <Link
-            href="/blog"
-            className="px-6 py-3 rounded-lg bg-(--color-brand-plum) text-(--color-brand-cream) font-medium hover:bg-opacity-90 transition-all shadow-sm"
-          >
-            Explore the Blog
-          </Link>
-          <Link
-            href="#portfolio"
-            className="px-6 py-3 rounded-lg border-2 border-(--color-brand-mustard) bg-transparent font-semibold text-(--color-brand-plum) hover:bg-(--color-brand-mustard) hover:text-(--color-brand-cream) transition-all"
-          >
-            Portfolio Sneak-Peek
-          </Link>
+      {/* Hero Section Split Grid */}
+      <section className="relative px-6 py-20 md:py-32 max-w-6xl mx-auto w-full flex items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center w-full">
+          {/* Left Side: Copy Content */}
+          <div className="text-left max-w-xl order-1">
+            <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-(--color-brand-plum) mb-6 leading-tight">
+              Building outside the box
+            </h1>
+            <p className="text-lg text-(--color-body-text) mb-10 leading-relaxed font-medium tracking-tight">
+              {`Creative freedom doesn't happen every day. But when it does, I try to push the boundaries of digital learning with custom code, animations, and scenarios that people actually enjoy.`}
+            </p>
+            <div className="flex flex-col sm:flex-row justify-start gap-4">
+              <Link
+                href="/blog"
+                className="px-6 py-3 rounded-lg bg-(--color-brand-plum) text-(--color-brand-cream) font-medium text-center hover:bg-opacity-90 transition-all shadow-sm"
+              >
+                Explore the Blog
+              </Link>
+              <Link
+                href="#portfolio"
+                className="px-6 py-3 rounded-lg border-2 border-(--color-brand-mustard) bg-transparent font-semibold text-center text-(--color-brand-plum) hover:bg-(--color-brand-mustard) hover:text-(--color-brand-cream) transition-all"
+              >
+                Portfolio Sneak-Peek
+              </Link>
+            </div>
+          </div>
+
+          {/* Right Side: Local JSON Lottie Animation Container */}
+          <div className="w-full aspect-square max-w-105 mx-auto md:max-w-none flex items-center justify-center order-2">
+            <LottiePlayer />
+          </div>
         </div>
       </section>
 
@@ -147,15 +156,15 @@ export default async function Home() {
       <section className="bg-(--color-brand-cream) border-y border-(--color-border) py-20 w-full overflow-hidden transition-colors duration-300">
         <div className="max-w-5xl mx-auto px-6 mb-12">
           <h2 className="text-3xl font-bold tracking-tight text-(--color-brand-plum) text-center">
-            Services I Offer
+            What I Love Doing
           </h2>
         </div>
 
         {/* Structural Layout Container for Global Grid Margin Alignment */}
         <div className="relative max-w-7xl mx-auto px-6 md:px-12">
           {/* Visual Masking Fade Elements */}
-          <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-16 bg-gradient-to-r from-(--color-brand-cream) to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-16 bg-gradient-to-l from-(--color-brand-cream) to-transparent z-10 pointer-events-none" />
+          <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-16 bg-linear-to-r from-(--color-brand-cream) to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-16 bg-linear-to-l from-(--color-brand-cream) to-transparent z-10 pointer-events-none" />
 
           {/* Independent Marquee Scrolling Sub-viewport */}
           <div className="relative w-full overflow-hidden">
@@ -190,11 +199,11 @@ export default async function Home() {
       >
         <header className="mb-12 text-center max-w-2xl mx-auto">
           <h2 className="text-3xl font-bold tracking-tight text-(--color-brand-plum) mb-4 transition-colors">
-            Portfolio
+            My Portfolio
           </h2>
           <p className="text-(--color-body-text) text-base opacity-80 transition-colors">
-            A visual overview of responsive modules, branching interactions, and
-            learning media built for scale.
+            A visual overview of the digital solutions built when custom
+            components, logic patterns, and animation engines run free.
           </p>
         </header>
 
@@ -238,7 +247,7 @@ export default async function Home() {
                         />
                       </svg>
                       <span className="text-xs font-semibold tracking-wider uppercase text-(--color-brand-plum)">
-                        View Case Study
+                        View Project
                       </span>
                     </div>
                   )}

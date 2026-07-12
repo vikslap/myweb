@@ -13,17 +13,17 @@ export default async function BlogIndex() {
     <main className="max-w-4xl mx-auto px-6 py-12 sm:py-20 flex-1 w-full">
       <header className="mb-12 max-w-2xl">
         <h1 className="text-4xl font-extrabold tracking-tight text-(--color-brand-plum) mb-4">
-          Latest Insights
+          Latest Posts
         </h1>
         <p className="text-(--color-body-text) text-lg">
-          Deep dives into technical design, responsive layouts, and modern
-          learning architecture.
+          Documenting new trends, industry shifts, and my personal notes on
+          learning design, code, and graphic animation
         </p>
       </header>
 
       {blogPosts.length === 0 ? (
         <p className="text-(--color-body-text) font-medium">
-          No insights published yet.
+          No posts published yet.
         </p>
       ) : (
         <div className="grid gap-10">
