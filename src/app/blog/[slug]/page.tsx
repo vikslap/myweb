@@ -2,11 +2,52 @@ import { getPostBySlug, getAllPosts } from "@/lib/wordpress";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import VideoPlayer from "@/components/VideoPlayer";
 
 interface PageProps {
   params: Promise<{
     slug: string;
   }>;
+}
+
+interface BlogContentParserProps {
+  htmlContent: string;
+}
+
+/* DYNAMIC CONTENT PARSER:
+  Scans the raw incoming HTML markup from the WordPress REST API.
+  If it detects a YouTube iframe, it cleanly replaces it with our interactive VideoPlayer component.
+*/
+function BlogContentParser({ htmlContent }: BlogContentParserProps) {
+  // Break down the content markup by matching full iframe tags
+  const parts = htmlContent.split(/(<iframe.*?<\/iframe>)/g);
+
+  return (
+    <div className="prose-wp transition-colors">
+      {parts.map((part, index) => {
+        // Intercept if the segment is a YouTube embed
+        if (part.startsWith("<iframe") && part.includes("youtube.com")) {
+          // Extract the unique 11-character video ID using a clean regex capture group
+          const match = part.match(/embed\/([a-zA-Z0-9_-]{11})/);
+          const videoId = match ? match[1] : null;
+
+          if (videoId) {
+            return (
+              <div
+                key={index}
+                className="my-8 shadow-md rounded-xl overflow-hidden"
+              >
+                <VideoPlayer videoId={videoId} title="Project Showcase Media" />
+              </div>
+            );
+          }
+        }
+
+        // Default: Render the standard paragraph, image, or heading block safely
+        return <div key={index} dangerouslySetInnerHTML={{ __html: part }} />;
+      })}
+    </div>
+  );
 }
 
 export default async function PostPage({ params }: PageProps) {
@@ -57,10 +98,8 @@ export default async function PostPage({ params }: PageProps) {
             </div>
           </header>
 
-          <div
-            className="prose-wp transition-colors"
-            dangerouslySetInnerHTML={{ __html: post.content }}
-          />
+          {/* DYNAMIC COMPONENT PIPELINE */}
+          <BlogContentParser htmlContent={post.content} />
         </article>
       </div>
 
@@ -89,7 +128,6 @@ export default async function PostPage({ params }: PageProps) {
                         priority={false}
                       />
                     ) : (
-                      /* Minimal thematic placeholder if no splash image is uploaded on WordPress */
                       <span className="text-xs font-semibold text-(--color-brand-plum)/40 tracking-wider uppercase">
                         View Project
                       </span>
