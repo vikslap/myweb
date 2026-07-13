@@ -124,7 +124,7 @@ export default async function Home() {
           {/* Left Side: Copy Content */}
           <div className="text-left max-w-xl order-1">
             <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-(--color-brand-plum) mb-6 leading-tight">
-              Building outside the box
+              The opposite of a template is a solution.
             </h1>
             <p className="text-lg text-(--color-body-text) mb-10 leading-relaxed font-medium tracking-tight">
               {`Creative freedom doesn't happen every day. But when it does, I try to push the boundaries of digital learning with custom code, animations, and scenarios that people actually enjoy.`}
